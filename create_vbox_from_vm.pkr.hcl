@@ -15,7 +15,7 @@ source "vmware-vmx" "vmware" {
   source_path      = "F:\\vmware\\openeuler2203\\openeuler2203.vmx"
   communicator     = "ssh"
   ssh_username     = "vagrant"
-  ssh_password     = "Openeuler2203"
+  ssh_password     = "V@grant2024"
   shutdown_command = "sudo poweroff"
 }
 
@@ -27,7 +27,7 @@ build {
   #}
 
   post-processor "vagrant" {
-    keep_input_artifact = false
-    output              = "euler_vmware.box"
+    compression_level = 9
+    output              = "openeuler2203-packerfromVmware.box"
   }
 }
