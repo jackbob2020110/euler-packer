@@ -1,0 +1,53 @@
+#cloud-config
+autoinstall:
+  apt:
+    disable_components: []
+    geoip: true
+    preserve_sources_list: false
+    primary:
+    - arches:
+      - amd64
+      - i386
+      uri: http://mirrors.tuna.tsinghua.edu.cn/ubuntu
+    - arches:
+      - default
+      uri: http://ports.ubuntu.com/ubuntu-ports
+  drivers:
+    install: false
+  identity:
+    hostname: ubuntu2204
+    password: $6$e2eO8Ez0TdeGJWTU$FMA3./TdXi/tLEYYGUbaw4EobsubMmXc4C22PAKP3XBGFgJ.57Sybyabrxrj/Er58tc3GNX6TkaBoWKLuGvag1
+    realname: vagrant
+    username: vagrant
+  kernel:
+    package: linux-generic
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
+  locale: en_US.UTF-8
+  network:
+    ethernets:
+      ens33:
+        dhcp4: true
+    version: 2
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  user-data:
+      disable_root: false
+      timezone: Asia/Harbin
+  late-commands:
+      - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
+      - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/vagrant
+      - sudo sed -i "s/ens33/enp2s0/g" /target/etc/netplan/00-installer-config.yaml
+  runcmd:
+    - sudo netplan apply
+  updates: security
+  version: 1
